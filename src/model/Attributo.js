@@ -9,9 +9,18 @@ const _peso = new WeakMap();
  */
 class Attributo {
   /**
+   *  peso minimo possibile
+   */
+  static pesoMinimo = 1;
+  /**
+   * peso massimo possibile
+   */
+  static pesoMassimo = 10;
+
+  /**
    *
    * @param {string} nome nome dell'attributo
-   * @param {number} peso peso dell'attributo compreso tra 1 e 10
+   * @param {number} peso peso dell'attributo compreso tra Attributo.pesoMinimo e Attributo.pesoMassimo
    */
   constructor(nome, peso) {
     this.nome = nome;
@@ -28,8 +37,10 @@ class Attributo {
   }
   set peso(peso) {
     if (typeof peso !== "number") throw new Error("peso deve essere un numero");
-    if (peso < 1 || peso > 10)
-      throw new Error("peso deve essere compreso tra 1 e 10");
+    if (peso < Attributo.pesoMinimo || peso > Attributo.pesoMassimo)
+      throw new Error(
+        `peso deve essere compreso tra ${Attributo.pesoMinimo} e ${Attributo.pesoMassimo}`
+      );
     _peso.set(this, peso);
   }
   get peso() {
