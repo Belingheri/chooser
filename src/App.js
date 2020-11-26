@@ -3,15 +3,10 @@ import Attributo from "./model/Attributo";
 
 const defaultAttributi = [];
 
-const a = new Attributo("consumo", 7);
-const b = new Attributo("potenza", 3);
-
-defaultAttributi.push(a);
-defaultAttributi.push(b);
-
-//   { nome: "consumo", valore: 7 },
-//   { nome: "potenza", valore: 3 },
-// ];
+let tempAttributo = new Attributo("consumo", 7);
+defaultAttributi.push(tempAttributo);
+tempAttributo = new Attributo("potenza", 3);
+defaultAttributi.push(tempAttributo);
 
 const defaultElementi = [
   {
@@ -93,7 +88,6 @@ function App() {
             <span>
               <input
                 type="number"
-                min="1"
                 value={attributo.peso}
                 onChange={({ currentTarget: t }) => {
                   handleChangeAttributoValue(attributo, t.valueAsNumber);
