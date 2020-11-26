@@ -28,7 +28,7 @@ class Attributo {
   }
   set peso(peso) {
     if (typeof peso !== "number") throw new Error("peso deve essere un numero");
-    if (peso < 0 || peso > 10)
+    if (peso < 1 || peso > 10)
       throw new Error("peso deve essere compreso tra 1 e 10");
     _peso.set(this, peso);
   }
