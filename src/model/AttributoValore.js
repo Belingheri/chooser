@@ -17,7 +17,7 @@ export default class AttributoValore extends Attributo {
    * @param {number} valore valore dell'attributo
    * @returns {AttributoValore} istanza di AttributoValore
    */
-  static getAttributoValore(attributo, valore) {
+  static getAttributoValore(attributo, valore = Attributo.pesoMinimo) {
     if (!attributo instanceof Attributo)
       throw new Error("attributo deve essere un istanza di Attributo");
     return new AttributoValore(attributo.nome, attributo.peso, valore);
