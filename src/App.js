@@ -1,48 +1,46 @@
 import { useState } from "react";
 import Attributo from "./model/Attributo";
+import AttributoValore from "./model/AttributoValore";
 
 const defaultAttributi = [];
 
-let tempAttributo = new Attributo("consumo", 7);
-defaultAttributi.push(tempAttributo);
-tempAttributo = new Attributo("potenza", 3);
-defaultAttributi.push(tempAttributo);
+const attrConsumo = new Attributo("consumo", 7);
+defaultAttributi.push(attrConsumo);
+const attrPotenza = new Attributo("potenza", 3);
+defaultAttributi.push(attrPotenza);
 
-const defaultElementi = [
-  {
-    descrizione: "panda",
-    attributi: {
-      consumo: 9,
-      potenza: 1,
-    },
-  },
-  {
-    descrizione: "ferrari",
-    attributi: {
-      consumo: 1,
-      potenza: 10,
-    },
-  },
-  {
-    descrizione: "fiesta",
-    attributi: {
-      consumo: 8,
-      potenza: 6,
-    },
-  },
-];
+const defaultElementi = [];
+
+let elemento = {};
+elemento.descrizione = "panda";
+elemento.attributi = [];
+elemento.attributi.push(AttributoValore.getAttributoValore(attrConsumo, 9));
+elemento.attributi.push(AttributoValore.getAttributoValore(attrPotenza, 1));
+defaultElementi.push(elemento);
+elemento = {};
+elemento.descrizione = "ferrari";
+elemento.attributi = [];
+elemento.attributi.push(AttributoValore.getAttributoValore(attrConsumo, 1));
+elemento.attributi.push(AttributoValore.getAttributoValore(attrPotenza, 10));
+defaultElementi.push(elemento);
+elemento = {};
+elemento.descrizione = "fiesta";
+elemento.attributi = [];
+elemento.attributi.push(AttributoValore.getAttributoValore(attrConsumo, 8));
+elemento.attributi.push(AttributoValore.getAttributoValore(attrPotenza, 6));
+defaultElementi.push(elemento);
 
 function App() {
   const [attributi, setAttributi] = useState(defaultAttributi);
   const [elementi, setElementi] = useState(defaultElementi);
   const [attributiErrors, setAttributiErrors] = useState({});
+  const [elementiErrors, setElementiErrors] = useState({});
 
   const getValore = (oggetto, attributi) => {
     let dividendo = 0,
       divisore = 0;
-    Object.keys(oggetto.attributi).forEach((nomeAttributo) => {
-      const attributo = attributi.find((attr) => attr.nome === nomeAttributo);
-      dividendo += oggetto.attributi[nomeAttributo] * attributo.peso;
+    oggetto.attributi.forEach((attributo) => {
+      dividendo += attributo.valore * attributo.peso;
       divisore += attributo.peso;
     });
     return dividendo / divisore;
@@ -55,6 +53,13 @@ function App() {
         (attr) => attr.nome === attributo.nome
       );
       attualiAttributi[idx].peso = valore;
+      const attualiElementi = [...elementi];
+      attualiElementi.forEach((elemento) => {
+        const idx = elemento.attributi.findIndex(
+          (el) => el.nome === attributo.nome
+        );
+        elemento.attributi[idx].peso = valore;
+      });
       setAttributi(attualiAttributi);
       resetAttributoError(attributo.nome);
     } catch (error) {
@@ -69,13 +74,32 @@ function App() {
     setAttributiErrors(actualErrors);
   };
 
-  const handleChangeElementoValue = (elemento, nomeAttributo, valore) => {
-    const attualiElementi = [...elementi];
-    const idx = attualiElementi.findIndex((el) => el === elemento);
-    const attualiAttributi = { ...attualiElementi[idx].attributi };
-    attualiAttributi[nomeAttributo] = valore;
-    attualiElementi[idx].attributi = attualiAttributi;
-    setElementi(attualiElementi);
+  const resetElementiError = (nomeElemento, nomeAttributo) => {
+    const actualErrors = { ...elementiErrors };
+    delete actualErrors[nomeElemento][nomeAttributo];
+    setElementiErrors(actualErrors);
+  };
+
+  const handleChangeElementoValue = (elemento, attributoValore, valore) => {
+    try {
+      const attualiElementi = [...elementi];
+      const idx = attualiElementi.findIndex(
+        (el) => el.descrizione === elemento.descrizione
+      );
+      const attualiAttributi = [...attualiElementi[idx].attributi];
+      const idxAttributo = attualiAttributi.findIndex(
+        (el) => el.nome === attributoValore.nome
+      );
+      attualiAttributi[idxAttributo].valore = valore;
+      setElementi(attualiElementi);
+      resetElementiError(elemento.descrizione, attributoValore.nome);
+    } catch (error) {
+      const actualErrors = { ...elementiErrors };
+      if (!actualErrors[elemento.descrizione])
+        actualErrors[elemento.descrizione] = {};
+      actualErrors[elemento.descrizione][attributoValore.nome] = error.message;
+      setElementiErrors(actualErrors);
+    }
   };
 
   return (
@@ -111,25 +135,41 @@ function App() {
                 <b> {getValore(elemento, attributi)}</b>
               </span>
               <ol key={elemento.descrizione + "_ol"}>
-                {Object.keys(elemento.attributi).map((nomeChiave) => {
+                {elemento.attributi.map((attributoValore) => {
                   return (
-                    <li key={elemento.descrizione + nomeChiave}>
-                      {nomeChiave} -{" "}
+                    <li key={attributoValore.nome}>
+                      {attributoValore.nome} -{" "}
                       <span>
                         <input
                           type="number"
-                          min="1"
-                          value={elemento.attributi[nomeChiave]}
+                          value={attributoValore.valore}
                           onChange={({ currentTarget: t }) => {
-                            if (!t.valueAsNumber || t.valueAsNumber < 1) return;
                             handleChangeElementoValue(
                               elemento,
-                              nomeChiave,
+                              attributoValore,
                               t.valueAsNumber
                             );
                           }}
+                          onBlur={() =>
+                            resetElementiError(
+                              elemento.descrizione,
+                              attributoValore.nome
+                            )
+                          }
                         />
                       </span>
+                      {elementiErrors[elemento.descrizione] &&
+                        elementiErrors[elemento.descrizione][
+                          attributoValore.nome
+                        ] && (
+                          <span>
+                            {
+                              elementiErrors[elemento.descrizione][
+                                attributoValore.nome
+                              ]
+                            }
+                          </span>
+                        )}
                     </li>
                   );
                 })}
