@@ -10,14 +10,14 @@ const _valore = new WeakMap();
  */
 export default class AttributoValore extends Attributo {
   /**
-   * getAttributoValore
+   * creaAttributoValore
    * @Belingheri
    * @description restituisce un istanza della classe AttributoValore
    * @param {Attributo} attributo attributo da includere
    * @param {number} valore valore dell'attributo
    * @returns {AttributoValore} istanza di AttributoValore
    */
-  static getAttributoValore(attributo, valore = Attributo.pesoMinimo) {
+  static creaAttributoValore(attributo, valore = Attributo.pesoMinimo) {
     if (!attributo instanceof Attributo)
       throw new Error("attributo deve essere un istanza di Attributo");
     return new AttributoValore(attributo.nome, attributo.peso, valore);

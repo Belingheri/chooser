@@ -19,7 +19,7 @@ export default class Elemento {
    */
   static creaElemento(descrizione, ...attributi) {
     const attributiValore = attributi.map((attributo) =>
-      AttributoValore.getAttributoValore(attributi)
+      AttributoValore.creaAttributoValore(attributi)
     );
     return new Elemento(descrizione, attributiValore);
   }
@@ -75,7 +75,7 @@ export default class Elemento {
     if (!attributo instanceof Attributo)
       throw new Error("attributo deve essere un istanza di Attributo");
     // assegno il valore minimo possibile
-    const attributoValore = AttributoValore.getAttributoValore(attributo);
+    const attributoValore = AttributoValore.creaAttributoValore(attributo);
     this.addAttributoValore(attributoValore);
   }
 

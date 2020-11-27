@@ -15,20 +15,20 @@ const defaultElementi = [];
 let elemento = {};
 elemento.descrizione = "panda";
 elemento.attributi = [];
-elemento.attributi.push(AttributoValore.getAttributoValore(attrConsumo, 9));
-elemento.attributi.push(AttributoValore.getAttributoValore(attrPotenza, 1));
+elemento.attributi.push(AttributoValore.creaAttributoValore(attrConsumo, 9));
+elemento.attributi.push(AttributoValore.creaAttributoValore(attrPotenza, 1));
 defaultElementi.push(elemento);
 elemento = {};
 elemento.descrizione = "ferrari";
 elemento.attributi = [];
-elemento.attributi.push(AttributoValore.getAttributoValore(attrConsumo, 1));
-elemento.attributi.push(AttributoValore.getAttributoValore(attrPotenza, 10));
+elemento.attributi.push(AttributoValore.creaAttributoValore(attrConsumo, 1));
+elemento.attributi.push(AttributoValore.creaAttributoValore(attrPotenza, 10));
 defaultElementi.push(elemento);
 elemento = {};
 elemento.descrizione = "fiesta";
 elemento.attributi = [];
-elemento.attributi.push(AttributoValore.getAttributoValore(attrConsumo, 8));
-elemento.attributi.push(AttributoValore.getAttributoValore(attrPotenza, 6));
+elemento.attributi.push(AttributoValore.creaAttributoValore(attrConsumo, 8));
+elemento.attributi.push(AttributoValore.creaAttributoValore(attrPotenza, 6));
 defaultElementi.push(elemento);
 
 function App() {
