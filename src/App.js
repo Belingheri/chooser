@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import Attributo from "./model/Attributo";
 import AttributoValore from "./model/AttributoValore";
 
@@ -36,7 +37,7 @@ function App() {
   const [attributiErrors, setAttributiErrors] = useState({});
   const [elementiErrors, setElementiErrors] = useState({});
 
-  const getValore = (oggetto, attributi) => {
+  const getValore = (oggetto) => {
     let dividendo = 0,
       divisore = 0;
     oggetto.attributi.forEach((attributo) => {
@@ -76,6 +77,7 @@ function App() {
 
   const resetElementiError = (nomeElemento, nomeAttributo) => {
     const actualErrors = { ...elementiErrors };
+    if (!actualErrors[nomeElemento]) return;
     delete actualErrors[nomeElemento][nomeAttributo];
     setElementiErrors(actualErrors);
   };
@@ -102,6 +104,8 @@ function App() {
     }
   };
 
+  const elementiOrdinati = elementi.sort((a, b) => getValore(b) - getValore(a));
+
   return (
     <div className="App">
       <h2>Attributi</h2>
@@ -127,12 +131,12 @@ function App() {
       </ol>
       <h3>Oggetti</h3>
       <ol>
-        {elementi.map((elemento) => {
+        {elementiOrdinati.map((elemento) => {
           return (
             <li key={elemento.descrizione}>
               {elemento.descrizione} -
               <span>
-                <b> {getValore(elemento, attributi)}</b>
+                <b> {getValore(elemento)}</b>
               </span>
               <ol key={elemento.descrizione + "_ol"}>
                 {elemento.attributi.map((attributoValore) => {
@@ -158,7 +162,8 @@ function App() {
                           }
                         />
                       </span>
-                      {elementiErrors[elemento.descrizione] &&
+                      {elementiErrors &&
+                        elementiErrors[elemento.descrizione] &&
                         elementiErrors[elemento.descrizione][
                           attributoValore.nome
                         ] && (
