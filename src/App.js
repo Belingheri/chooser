@@ -141,7 +141,7 @@ function App() {
               <ol key={elemento.descrizione + "_ol"}>
                 {elemento.attributi.map((attributoValore) => {
                   return (
-                    <li key={attributoValore.nome}>
+                    <li key={`${elemento.descrizione}_${attributoValore.nome}`}>
                       {attributoValore.nome} -{" "}
                       <span>
                         <input
