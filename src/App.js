@@ -54,6 +54,7 @@ function App() {
         );
         elemento.attributi[idx].peso = valore;
       });
+      setElementi(attualiElementi);
       setAttributi(attualiAttributi);
       resetAttributoError(attributo.nome);
     } catch (error) {
@@ -81,11 +82,9 @@ function App() {
       const idx = attualiElementi.findIndex(
         (el) => el.descrizione === elemento.descrizione
       );
-      const attualiAttributi = [...attualiElementi[idx].attributi];
-      const idxAttributo = attualiAttributi.findIndex(
-        (el) => el.nome === attributoValore.nome
-      );
-      attualiAttributi[idxAttributo].valore = valore;
+
+      attualiElementi[idx].changeValueAttributo(attributoValore.nome, valore);
+
       setElementi(attualiElementi);
       resetElementiError(elemento.descrizione, attributoValore.nome);
     } catch (error) {
