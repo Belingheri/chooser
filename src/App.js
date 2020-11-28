@@ -205,59 +205,63 @@ function App() {
         </form>
       </div>
       <h3>Oggetti</h3>
-      <ol>
-        {elementiOrdinati.map((elemento) => {
-          return (
-            <li key={elemento.descrizione}>
-              {elemento.descrizione} -
-              <span>
-                <b> {elemento.valore}</b>
-              </span>
-              <ol key={elemento.descrizione + "_ol"}>
-                {elemento.attributi.map((attributoValore) => {
-                  return (
-                    <li key={`${elemento.descrizione}_${attributoValore.nome}`}>
-                      {attributoValore.nome} -{" "}
-                      <span>
-                        <input
-                          type="number"
-                          value={attributoValore.valore}
-                          onChange={({ currentTarget: t }) => {
-                            handleChangeElementoValue(
-                              elemento,
-                              attributoValore,
-                              t.valueAsNumber
-                            );
-                          }}
-                          onBlur={() =>
-                            resetElementiError(
-                              elemento.descrizione,
-                              attributoValore.nome
-                            )
-                          }
-                        />
-                      </span>
-                      {elementiErrors &&
-                        elementiErrors[elemento.descrizione] &&
-                        elementiErrors[elemento.descrizione][
-                          attributoValore.nome
-                        ] && (
-                          <span>
-                            {
-                              elementiErrors[elemento.descrizione][
+      <div>
+        <ol>
+          {elementiOrdinati.map((elemento) => {
+            return (
+              <li key={elemento.descrizione}>
+                {elemento.descrizione} -
+                <span>
+                  <b> {elemento.valore}</b>
+                </span>
+                <ol key={elemento.descrizione + "_ol"}>
+                  {elemento.attributi.map((attributoValore) => {
+                    return (
+                      <li
+                        key={`${elemento.descrizione}_${attributoValore.nome}`}
+                      >
+                        {attributoValore.nome} -{" "}
+                        <span>
+                          <input
+                            type="number"
+                            value={attributoValore.valore}
+                            onChange={({ currentTarget: t }) => {
+                              handleChangeElementoValue(
+                                elemento,
+                                attributoValore,
+                                t.valueAsNumber
+                              );
+                            }}
+                            onBlur={() =>
+                              resetElementiError(
+                                elemento.descrizione,
                                 attributoValore.nome
-                              ]
+                              )
                             }
-                          </span>
-                        )}
-                    </li>
-                  );
-                })}
-              </ol>
-            </li>
-          );
-        })}
-      </ol>
+                          />
+                        </span>
+                        {elementiErrors &&
+                          elementiErrors[elemento.descrizione] &&
+                          elementiErrors[elemento.descrizione][
+                            attributoValore.nome
+                          ] && (
+                            <span>
+                              {
+                                elementiErrors[elemento.descrizione][
+                                  attributoValore.nome
+                                ]
+                              }
+                            </span>
+                          )}
+                      </li>
+                    );
+                  })}
+                </ol>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     </div>
   );
 }
