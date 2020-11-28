@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import Attributo from "./model/Attributo";
 import AttributoValore from "./model/AttributoValore";
+import Elemento from "./model/Elemento";
 
 const defaultAttributi = [];
 
@@ -12,23 +13,25 @@ defaultAttributi.push(attrPotenza);
 
 const defaultElementi = [];
 
-let elemento = {};
-elemento.descrizione = "panda";
-elemento.attributi = [];
-elemento.attributi.push(AttributoValore.creaAttributoValore(attrConsumo, 9));
-elemento.attributi.push(AttributoValore.creaAttributoValore(attrPotenza, 1));
+let elemento = new Elemento(
+  "panda",
+  AttributoValore.creaAttributoValore(attrConsumo, 9),
+  AttributoValore.creaAttributoValore(attrPotenza, 1)
+);
 defaultElementi.push(elemento);
-elemento = {};
-elemento.descrizione = "ferrari";
-elemento.attributi = [];
-elemento.attributi.push(AttributoValore.creaAttributoValore(attrConsumo, 1));
-elemento.attributi.push(AttributoValore.creaAttributoValore(attrPotenza, 10));
+
+elemento = new Elemento(
+  "ferrari",
+  AttributoValore.creaAttributoValore(attrConsumo, 1),
+  AttributoValore.creaAttributoValore(attrPotenza, 10)
+);
 defaultElementi.push(elemento);
-elemento = {};
-elemento.descrizione = "fiesta";
-elemento.attributi = [];
-elemento.attributi.push(AttributoValore.creaAttributoValore(attrConsumo, 8));
-elemento.attributi.push(AttributoValore.creaAttributoValore(attrPotenza, 6));
+
+elemento = new Elemento(
+  "fiesta",
+  AttributoValore.creaAttributoValore(attrConsumo, 8),
+  AttributoValore.creaAttributoValore(attrPotenza, 6)
+);
 defaultElementi.push(elemento);
 
 function App() {
@@ -36,16 +39,6 @@ function App() {
   const [elementi, setElementi] = useState(defaultElementi);
   const [attributiErrors, setAttributiErrors] = useState({});
   const [elementiErrors, setElementiErrors] = useState({});
-
-  const getValore = (oggetto) => {
-    let dividendo = 0,
-      divisore = 0;
-    oggetto.attributi.forEach((attributo) => {
-      dividendo += attributo.valore * attributo.peso;
-      divisore += attributo.peso;
-    });
-    return dividendo / divisore;
-  };
 
   const handleChangeAttributoValue = (attributo, valore) => {
     try {
@@ -104,7 +97,7 @@ function App() {
     }
   };
 
-  const elementiOrdinati = elementi.sort((a, b) => getValore(b) - getValore(a));
+  const elementiOrdinati = elementi.sort((a, b) => b.valore - a.valore);
 
   return (
     <div className="App">
@@ -136,7 +129,7 @@ function App() {
             <li key={elemento.descrizione}>
               {elemento.descrizione} -
               <span>
-                <b> {getValore(elemento)}</b>
+                <b> {elemento.valore}</b>
               </span>
               <ol key={elemento.descrizione + "_ol"}>
                 {elemento.attributi.map((attributoValore) => {
