@@ -102,6 +102,29 @@ export default class Elemento {
     _attributi.set(this, attributi);
   }
 
+  /**
+   * removeAttributo
+   * @Belingheri
+   * @description rimuove l'attributo
+   * @param {string} nomeAttributo
+   * @returns attributo rimosso
+   */
+  removeAttributo(nomeAttributo) {
+    if (typeof nomeAttributo !== "string")
+      throw new Error("nomeAttributo deve essere una stringa");
+    const attributi = _attributi.get(this);
+    const idx = attributi.findIndex(
+      (attributo) => attributo.nome === nomeAttributo
+    );
+    if (idx < 0)
+      throw new Error(
+        `Attributo ${nomeAttributo} non presente in questo elemento`
+      );
+    const attributoRimosso = attributi.splice(idx, 1);
+    _attributi.set(this, attributi);
+    return attributoRimosso;
+  }
+
   get valore() {
     let dividendo = 0,
       divisore = 0;

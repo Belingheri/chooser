@@ -73,6 +73,25 @@ function App() {
     setAttributiErrors(actualErrors);
   };
 
+  const handleDeleteAttributo = (nomeAttributo) => {
+    try {
+      const attAttributi = [...attributi],
+        attElementi = [...elementi];
+      const idx = attAttributi.findIndex((a) => a.nome === nomeAttributo);
+      if (idx < 1) throw new Error(`Attributo ${nomeAttributo} non presente`);
+      attAttributi.splice(idx, 1);
+
+      attElementi.forEach((e) => {
+        e.removeAttributo(nomeAttributo);
+      });
+
+      setAttributi(attAttributi);
+      setElementi(attElementi);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const resetElementiError = (nomeElemento, nomeAttributo) => {
     const actualErrors = { ...elementiErrors };
     if (!actualErrors[nomeElemento]) return;
@@ -152,6 +171,9 @@ function App() {
                   onBlur={() => resetAttributoError(attributo.nome)}
                 />
               </span>
+              <button onClick={() => handleDeleteAttributo(attributo.nome)}>
+                rimuovi
+              </button>
               {attributiErrors[attributo.nome] && (
                 <span>{attributiErrors[attributo.nome]}</span>
               )}
@@ -178,7 +200,7 @@ function App() {
             onChange={changeFormAttributo}
           />
           <br />
-          <button type="submit">Aggiungi</button>
+          <button type="submit">aggiungi</button>
           {attributoForm.error && <span>{attributoForm.error}</span>}
         </form>
       </div>
