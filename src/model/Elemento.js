@@ -33,13 +33,14 @@ export default class Elemento {
     this.descrizione = descrizione;
     if (attributiValore.length === 0)
       throw new Error("E' necessario definire almeno un attibutoValore");
+    _attributi.set(this, []);
     attributiValore.forEach((attributoValore) =>
-      this.addAttributoValore(attributiValore)
+      this.addAttributoValore(attributoValore)
     );
   }
 
   set descrizione(descrizione) {
-    if (!typeof descrizione !== "string")
+    if (typeof descrizione !== "string")
       throw new Error("descrizione deve essere una stringa");
     _descrizione.set(this, descrizione);
   }
@@ -79,6 +80,28 @@ export default class Elemento {
     this.addAttributoValore(attributoValore);
   }
 
+  /**
+   * changeValueAttributo
+   * @Belingheri
+   * @description cambia il valore dell'attributo in input
+   * @param {string} nomeAttributo
+   * @param {number} valore
+   */
+  changeValueAttributo(nomeAttributo, valore) {
+    if (typeof nomeAttributo !== "string")
+      throw new Error("nomeAttributo deve essere una stringa");
+    const attributi = _attributi.get(this);
+    const attributo = attributi.find(
+      (attributo) => attributo.nome === nomeAttributo
+    );
+    if (!attributo)
+      throw new Error(
+        `Attributo ${nomeAttributo} non presente in questo elemento`
+      );
+    attributo.valore = valore;
+    _attributi.set(this, attributi);
+  }
+
   get valore() {
     let dividendo = 0,
       divisore = 0;
@@ -86,6 +109,6 @@ export default class Elemento {
       dividendo += attributo.valore * attributo.peso;
       divisore += attributo.peso;
     });
-    return dividendo / divisore;
+    return divisore === 0 ? 0 : dividendo / divisore;
   }
 }
