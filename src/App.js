@@ -38,6 +38,10 @@ function App() {
   const [attributi, setAttributi] = useState(defaultAttributi);
   const [elementi, setElementi] = useState(defaultElementi);
   const [attributiErrors, setAttributiErrors] = useState({});
+  const [attributoForm, setAttributoForm] = useState({
+    nome: "",
+    peso: Attributo.pesoMinimo,
+  });
   const [elementiErrors, setElementiErrors] = useState({});
 
   const handleChangeAttributoValue = (attributo, valore) => {
@@ -96,31 +100,88 @@ function App() {
     }
   };
 
+  const changeFormAttributo = ({ currentTarget: t }) => {
+    const attributo = { ...attributoForm };
+    attributo[t.name] = t.name === "nome" ? t.value : t.valueAsNumber;
+    setAttributoForm(attributo);
+  };
+  const handleCreaAttributo = (e) => {
+    e.preventDefault();
+    const attributo = { ...attributoForm };
+    try {
+      const attr = new Attributo(attributoForm.nome, attributoForm.peso);
+      const attAttributi = [...attributi];
+
+      const attEx = attAttributi.find((a) => a.nome === attr.nome);
+      if (attEx) throw new Error(`Attributo ${attEx.nome} gia essistente`);
+
+      attAttributi.push(attr);
+
+      const attElementi = [...elementi];
+
+      attElementi.forEach((el) => {
+        el.addAttributo(attr);
+      });
+
+      setAttributi(attAttributi);
+      setElementi(attElementi);
+      setAttributoForm({ nome: "", peso: Attributo.pesoMinimo });
+    } catch (error) {
+      attributo.error = error.message;
+      setAttributoForm(attributo);
+    }
+  };
   const elementiOrdinati = elementi.sort((a, b) => b.valore - a.valore);
+  const attributiOrdinati = attributi.sort((a, b) => b.peso - a.peso);
 
   return (
     <div className="App">
       <h2>Attributi</h2>
-      <ol>
-        {attributi.map((attributo) => (
-          <li key={attributo.nome}>
-            {attributo.nome}{" "}
-            <span>
-              <input
-                type="number"
-                value={attributo.peso}
-                onChange={({ currentTarget: t }) => {
-                  handleChangeAttributoValue(attributo, t.valueAsNumber);
-                }}
-                onBlur={() => resetAttributoError(attributo.nome)}
-              />
-            </span>
-            {attributiErrors[attributo.nome] && (
-              <span>{attributiErrors[attributo.nome]}</span>
-            )}
-          </li>
-        ))}
-      </ol>
+      <div>
+        <ol>
+          {attributiOrdinati.map((attributo) => (
+            <li key={attributo.nome}>
+              {attributo.nome}{" "}
+              <span>
+                <input
+                  type="number"
+                  value={attributo.peso}
+                  onChange={({ currentTarget: t }) => {
+                    handleChangeAttributoValue(attributo, t.valueAsNumber);
+                  }}
+                  onBlur={() => resetAttributoError(attributo.nome)}
+                />
+              </span>
+              {attributiErrors[attributo.nome] && (
+                <span>{attributiErrors[attributo.nome]}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+        <form onSubmit={handleCreaAttributo}>
+          <label htmlFor="nome">Nome</label>
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            placeholder="Nome Attributo"
+            value={attributoForm.nome}
+            onChange={changeFormAttributo}
+          />
+          <br />
+          <label htmlFor="peso">Peso:</label>
+          <input
+            type="number"
+            id="peso"
+            name="peso"
+            value={attributoForm.peso}
+            onChange={changeFormAttributo}
+          />
+          <br />
+          <button type="submit">Aggiungi</button>
+          {attributoForm.error && <span>{attributoForm.error}</span>}
+        </form>
+      </div>
       <h3>Oggetti</h3>
       <ol>
         {elementiOrdinati.map((elemento) => {
