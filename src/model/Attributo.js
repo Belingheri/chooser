@@ -28,6 +28,7 @@ class Attributo {
   }
 
   set nome(nome) {
+    if (!nome) throw new Error("nome deve essere valorizzato");
     if (typeof nome !== "string")
       throw new Error("nome deve essere una stringa");
     _nome.set(this, nome);
@@ -36,6 +37,7 @@ class Attributo {
     return _nome.get(this);
   }
   set peso(peso) {
+    if (!peso) throw new Error("peso deve essere valorizzato");
     if (typeof peso !== "number") throw new Error("peso deve essere un numero");
     if (peso < Attributo.pesoMinimo || peso > Attributo.pesoMassimo)
       throw new Error(
