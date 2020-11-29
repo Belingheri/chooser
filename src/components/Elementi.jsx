@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
+import ElementoR from "./ElementoR";
+
 import Elemento from "../model/Elemento";
 
 function Elementi({
@@ -18,53 +20,11 @@ function Elementi({
       <ol>
         {elementiOrdinati.map((elemento) => {
           return (
-            <li key={elemento.descrizione}>
-              {elemento.descrizione} -
-              <span>
-                <b> {elemento.valore}</b>
-              </span>
-              <ol key={elemento.descrizione + "_ol"}>
-                {elemento.attributi.map((attributoValore) => {
-                  return (
-                    <li key={`${elemento.descrizione}_${attributoValore.nome}`}>
-                      {attributoValore.nome} -{" "}
-                      <span>
-                        <input
-                          type="number"
-                          value={attributoValore.valore}
-                          onChange={({ currentTarget: t }) => {
-                            onChange(
-                              elemento,
-                              attributoValore,
-                              t.valueAsNumber
-                            );
-                          }}
-                          onBlur={() =>
-                            onFocusOut(
-                              elemento.descrizione,
-                              attributoValore.nome
-                            )
-                          }
-                        />
-                      </span>
-                      {elementiErrors &&
-                        elementiErrors[elemento.descrizione] &&
-                        elementiErrors[elemento.descrizione][
-                          attributoValore.nome
-                        ] && (
-                          <span>
-                            {
-                              elementiErrors[elemento.descrizione][
-                                attributoValore.nome
-                              ]
-                            }
-                          </span>
-                        )}
-                    </li>
-                  );
-                })}
-              </ol>
-            </li>
+            <ElementoR
+              key={elemento.descrizione}
+              elemento={elemento}
+              onChange={onChange}
+            />
           );
         })}
       </ol>
