@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { Form, Col, Button, Alert } from "react-bootstrap";
 
 import Attributo from "./../model/Attributo";
 
@@ -30,29 +31,36 @@ function AttributoForm({ attributi, onAdd }) {
   };
 
   return (
-    <form onSubmit={handleCreaAttributo}>
-      <label htmlFor="nome">Nome</label>
-      <input
-        type="text"
-        id="nome"
-        name="nome"
-        placeholder="Nome Attributo"
-        value={attributoForm.nome}
-        onChange={changeFormAttributo}
-      />
-      <br />
-      <label htmlFor="peso">Peso:</label>
-      <input
-        type="number"
-        id="peso"
-        name="peso"
-        value={attributoForm.peso}
-        onChange={changeFormAttributo}
-      />
-      <br />
-      <button type="submit">aggiungi</button>
-      {attributoForm.error && <span>{attributoForm.error}</span>}
-    </form>
+    <Form onSubmit={handleCreaAttributo} className="my-4">
+      <Form.Row>
+        <Form.Group as={Col} controlId="nomeAttributo">
+          <Form.Label>Attributo</Form.Label>
+          <Form.Control
+            type="text"
+            name="nome"
+            placeholder="Nome attributo"
+            value={attributoForm.nome}
+            onChange={changeFormAttributo}
+          />
+        </Form.Group>
+
+        <Form.Group as={Col} controlId="pesoAttributo">
+          <Form.Label>Peso</Form.Label>
+          <Form.Control
+            type="number"
+            name="peso"
+            value={attributoForm.peso}
+            onChange={changeFormAttributo}
+          />
+        </Form.Group>
+      </Form.Row>
+      <Button variant="primary" type="submit">
+        Aggiungi
+      </Button>
+      {attributoForm.error && (
+        <Alert variant="danger">{attributoForm.error}</Alert>
+      )}
+    </Form>
   );
 }
 
