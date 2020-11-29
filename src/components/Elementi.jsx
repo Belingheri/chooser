@@ -14,6 +14,7 @@ function Elementi({
   const elementiOrdinati = elementi.sort((a, b) => b.valore - a.valore);
   return (
     <div>
+      <h1>Oggetti</h1>
       <ol>
         {elementiOrdinati.map((elemento) => {
           return (
@@ -73,11 +74,11 @@ function Elementi({
 
 Elementi.propTypes = {
   elementi: PropTypes.arrayOf(PropTypes.instanceOf(Elemento)).isRequired,
-  onAdd: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
+  onAdd: PropTypes.func,
+  onRemove: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onFocusOut: PropTypes.func.isRequired,
-  elementiErrors: PropTypes.object.isRequired,
+  elementiErrors: PropTypes.object,
 };
 
 export default Elementi;
