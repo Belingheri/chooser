@@ -127,9 +127,9 @@ function App() {
   };
 
   return (
-    <Container fluid="md">
+    <Container>
       <Row>
-        <Col>
+        <Col sm={4}>
           <Attributi
             attributi={attributi}
             onAdd={handleCreaAttributo}
