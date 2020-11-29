@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { ListGroup } from "react-bootstrap";
+import {
+  ListGroup,
+  InputGroup,
+  FormControl,
+  Button,
+  Alert,
+} from "react-bootstrap";
 
 import Attributo from "../model/Attributo";
 
@@ -19,19 +25,29 @@ function AttributoR({ attributo, onChange, onRemove, canRemove }) {
 
   return (
     <ListGroup.Item key={attributo.nome}>
-      {attributo.nome}{" "}
-      <span>
-        <input
+      <InputGroup className="mb-3">
+        <InputGroup.Prepend>
+          <InputGroup.Text>{attributo.nome}</InputGroup.Text>
+        </InputGroup.Prepend>
+        <FormControl
           type="number"
           value={attributo.peso}
           onChange={handleChangeValue}
           onBlur={() => setError("")}
         />
-      </span>
-      {canRemove && (
-        <button onClick={() => onRemove(attributo.nome)}>rimuovi</button>
-      )}
-      {error && <span>{error}</span>}
+        {canRemove && (
+          <InputGroup.Append>
+            <Button
+              onClick={() => onRemove(attributo.nome)}
+              variant="outline-danger"
+            >
+              rimuovi
+            </Button>
+          </InputGroup.Append>
+        )}
+      </InputGroup>
+
+      {error && <Alert variant="warning">{error}</Alert>}
     </ListGroup.Item>
   );
 }
