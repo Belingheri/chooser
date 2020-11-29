@@ -1,0 +1,49 @@
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { ListGroup } from "react-bootstrap";
+
+import Attributo from "../model/Attributo";
+
+function AttributoR({ attributo, onChange, onRemove, canRemove }) {
+  const [error, setError] = useState("");
+
+  const handleChangeValue = ({ currentTarget: t }) => {
+    try {
+      Attributo.validatePeso(t.valueAsNumber);
+      onChange(attributo, t.valueAsNumber);
+      setError("");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  return (
+    <ListGroup.Item key={attributo.nome}>
+      {attributo.nome}{" "}
+      <span>
+        <input
+          type="number"
+          value={attributo.peso}
+          onChange={handleChangeValue}
+          onBlur={() => setError("")}
+        />
+      </span>
+      {canRemove && (
+        <button onClick={() => onRemove(attributo.nome)}>rimuovi</button>
+      )}
+      {error && <span>{error}</span>}
+    </ListGroup.Item>
+  );
+}
+
+AttributoR.propTypes = {
+  attributo: PropTypes.instanceOf(Attributo).isRequired,
+  onChange: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  canRemove: PropTypes.bool.isRequired,
+};
+
+AttributoR.defaultProp = {
+  canRemove: true,
+};
+export default AttributoR;
