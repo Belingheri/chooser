@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import Attributi from "./components/Attributi";
+
 import Attributo from "./model/Attributo";
 import AttributoValore from "./model/AttributoValore";
 import Elemento from "./model/Elemento";
@@ -36,12 +38,8 @@ defaultElementi.push(elemento);
 
 function App() {
   const [attributi, setAttributi] = useState(defaultAttributi);
-  const [elementi, setElementi] = useState(defaultElementi);
   const [attributiErrors, setAttributiErrors] = useState({});
-  const [attributoForm, setAttributoForm] = useState({
-    nome: "",
-    peso: Attributo.pesoMinimo,
-  });
+  const [elementi, setElementi] = useState(defaultElementi);
   const [elementiErrors, setElementiErrors] = useState({});
 
   const handleChangeAttributoValue = (attributo, valore) => {
@@ -78,7 +76,7 @@ function App() {
       const attAttributi = [...attributi],
         attElementi = [...elementi];
       const idx = attAttributi.findIndex((a) => a.nome === nomeAttributo);
-      if (idx < 1) throw new Error(`Attributo ${nomeAttributo} non presente`);
+      if (idx < 0) throw new Error(`Attributo ${nomeAttributo} non presente`);
       attAttributi.splice(idx, 1);
 
       attElementi.forEach((e) => {
@@ -89,6 +87,7 @@ function App() {
       setElementi(attElementi);
     } catch (error) {
       console.log(error);
+      alert(error.message);
     }
   };
 
@@ -119,90 +118,38 @@ function App() {
     }
   };
 
-  const changeFormAttributo = ({ currentTarget: t }) => {
-    const attributo = { ...attributoForm };
-    attributo[t.name] = t.name === "nome" ? t.value : t.valueAsNumber;
-    setAttributoForm(attributo);
-  };
-  const handleCreaAttributo = (e) => {
-    e.preventDefault();
-    const attributo = { ...attributoForm };
+  const handleCreaAttributo = (attributoToAdd) => {
     try {
-      const attr = new Attributo(attributoForm.nome, attributoForm.peso);
       const attAttributi = [...attributi];
-
-      const attEx = attAttributi.find((a) => a.nome === attr.nome);
-      if (attEx) throw new Error(`Attributo ${attEx.nome} gia essistente`);
-
-      attAttributi.push(attr);
-
+      // controllo sotto gia
+      // const attEx = attAttributi.find((a) => a.nome === attributoToAdd.nome);
+      // if (attEx) throw new Error(`Attributo ${attEx.nome} gia essistente`);
+      attAttributi.push(attributoToAdd);
       const attElementi = [...elementi];
-
       attElementi.forEach((el) => {
-        el.addAttributo(attr);
+        el.addAttributo(attributoToAdd);
       });
-
       setAttributi(attAttributi);
       setElementi(attElementi);
-      setAttributoForm({ nome: "", peso: Attributo.pesoMinimo });
     } catch (error) {
-      attributo.error = error.message;
-      setAttributoForm(attributo);
+      alert(error.message);
+      console.log(error);
     }
   };
   const elementiOrdinati = elementi.sort((a, b) => b.valore - a.valore);
-  const attributiOrdinati = attributi.sort((a, b) => b.peso - a.peso);
 
   return (
     <div className="App">
       <h2>Attributi</h2>
       <div>
-        <ol>
-          {attributiOrdinati.map((attributo) => (
-            <li key={attributo.nome}>
-              {attributo.nome}{" "}
-              <span>
-                <input
-                  type="number"
-                  value={attributo.peso}
-                  onChange={({ currentTarget: t }) => {
-                    handleChangeAttributoValue(attributo, t.valueAsNumber);
-                  }}
-                  onBlur={() => resetAttributoError(attributo.nome)}
-                />
-              </span>
-              <button onClick={() => handleDeleteAttributo(attributo.nome)}>
-                rimuovi
-              </button>
-              {attributiErrors[attributo.nome] && (
-                <span>{attributiErrors[attributo.nome]}</span>
-              )}
-            </li>
-          ))}
-        </ol>
-        <form onSubmit={handleCreaAttributo}>
-          <label htmlFor="nome">Nome</label>
-          <input
-            type="text"
-            id="nome"
-            name="nome"
-            placeholder="Nome Attributo"
-            value={attributoForm.nome}
-            onChange={changeFormAttributo}
-          />
-          <br />
-          <label htmlFor="peso">Peso:</label>
-          <input
-            type="number"
-            id="peso"
-            name="peso"
-            value={attributoForm.peso}
-            onChange={changeFormAttributo}
-          />
-          <br />
-          <button type="submit">aggiungi</button>
-          {attributoForm.error && <span>{attributoForm.error}</span>}
-        </form>
+        <Attributi
+          attributi={attributi}
+          onAdd={handleCreaAttributo}
+          onChange={handleChangeAttributoValue}
+          onRemove={handleDeleteAttributo}
+          onFocusOut={resetAttributoError}
+          attributiErrors={attributiErrors}
+        />
       </div>
       <h3>Oggetti</h3>
       <div>
