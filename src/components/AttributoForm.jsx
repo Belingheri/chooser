@@ -55,7 +55,7 @@ function AttributoForm({ attributi, onAdd }) {
         </Form.Group>
       </Form.Row>
       <Button variant="primary" type="submit">
-        Aggiungi
+        Aggiungi<i className="mx-2 fas fa-clipboard-check"></i>
       </Button>
       {attributoForm.error && (
         <Alert variant="danger">{attributoForm.error}</Alert>

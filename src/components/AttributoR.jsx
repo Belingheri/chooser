@@ -41,7 +41,7 @@ function AttributoR({ attributo, onChange, onRemove, canRemove }) {
               onClick={() => onRemove(attributo.nome)}
               variant="outline-danger"
             >
-              rimuovi
+              <i className="far fa-trash-alt"></i>
             </Button>
           </InputGroup.Append>
         )}
