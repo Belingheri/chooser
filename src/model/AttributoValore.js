@@ -22,6 +22,23 @@ export default class AttributoValore extends Attributo {
       throw new Error("attributo deve essere un istanza di Attributo");
     return new AttributoValore(attributo.nome, attributo.peso, valore);
   }
+
+  /**
+   * validateValore
+   * @Belingheri
+   * @description valida il valore se invalido solleva un eccezione
+   * @param {number} valore valore da validare
+   * @throws causa di non validita'
+   */
+  static validateValore(valore) {
+    if (typeof valore !== "number" || !valore)
+      throw new Error("valore deve essere un numero");
+    if (valore < Attributo.pesoMinimo || valore > Attributo.pesoMassimo)
+      throw new Error(
+        `valore deve essere compreso tra ${Attributo.pesoMinimo} e ${Attributo.pesoMassimo}`
+      );
+  }
+
   /**
    *
    * @param {string} nome nome dell'attributo
@@ -34,12 +51,7 @@ export default class AttributoValore extends Attributo {
   }
 
   set valore(valore) {
-    if (typeof valore !== "number")
-      throw new Error("valore deve essere un numero");
-    if (valore < Attributo.pesoMinimo || valore > Attributo.pesoMassimo)
-      throw new Error(
-        `valore deve essere compreso tra ${Attributo.pesoMinimo} e ${Attributo.pesoMassimo}`
-      );
+    AttributoValore.validateValore(valore);
     _valore.set(this, valore);
   }
 
