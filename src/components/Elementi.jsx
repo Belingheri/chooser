@@ -17,17 +17,15 @@ function Elementi({
   return (
     <div>
       <h1>Oggetti</h1>
-      <ol>
-        {elementiOrdinati.map((elemento) => {
-          return (
-            <ElementoR
-              key={elemento.descrizione}
-              elemento={elemento}
-              onChange={onChange}
-            />
-          );
-        })}
-      </ol>
+      {elementiOrdinati.map((elemento) => {
+        return (
+          <ElementoR
+            key={elemento.descrizione}
+            elemento={elemento}
+            onChange={onChange}
+          />
+        );
+      })}
     </div>
   );
 }

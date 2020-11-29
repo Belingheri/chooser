@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Navbar } from "react-bootstrap";
 
 import Attributi from "./components/Attributi";
 import Elementi from "./components/Elementi";
@@ -127,25 +127,30 @@ function App() {
   };
 
   return (
-    <Container fluid="md">
-      <Row>
-        <Col>
-          <Attributi
-            attributi={attributi}
-            onAdd={handleCreaAttributo}
-            onChange={handleChangeAttributoValue}
-            onRemove={handleDeleteAttributo}
-          />
-        </Col>
-        <Col>
-          <Elementi
-            elementi={elementi}
-            onChange={handleChangeElementoValue}
-            onFocusOut={resetElementiError}
-          />
-        </Col>
-      </Row>
-    </Container>
+    <div>
+      <Navbar bg="light">
+        <Navbar.Brand href="#home">Be Prometeo</Navbar.Brand>
+      </Navbar>
+      <Container>
+        <Row>
+          <Col sm={4}>
+            <Attributi
+              attributi={attributi}
+              onAdd={handleCreaAttributo}
+              onChange={handleChangeAttributoValue}
+              onRemove={handleDeleteAttributo}
+            />
+          </Col>
+          <Col>
+            <Elementi
+              elementi={elementi}
+              onChange={handleChangeElementoValue}
+              onFocusOut={resetElementiError}
+            />
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 
