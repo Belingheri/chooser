@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 
 import Attributi from "./components/Attributi";
 import Elementi from "./components/Elementi";
@@ -39,37 +40,24 @@ defaultElementi.push(elemento);
 
 function App() {
   const [attributi, setAttributi] = useState(defaultAttributi);
-  const [attributiErrors, setAttributiErrors] = useState({});
   const [elementi, setElementi] = useState(defaultElementi);
   const [elementiErrors, setElementiErrors] = useState({});
 
   const handleChangeAttributoValue = (attributo, valore) => {
-    try {
-      const attualiAttributi = [...attributi];
-      const idx = attualiAttributi.findIndex(
-        (attr) => attr.nome === attributo.nome
+    const attualiAttributi = [...attributi];
+    const idx = attualiAttributi.findIndex(
+      (attr) => attr.nome === attributo.nome
+    );
+    attualiAttributi[idx].peso = valore;
+    const attualiElementi = [...elementi];
+    attualiElementi.forEach((elemento) => {
+      const idx = elemento.attributi.findIndex(
+        (el) => el.nome === attributo.nome
       );
-      attualiAttributi[idx].peso = valore;
-      const attualiElementi = [...elementi];
-      attualiElementi.forEach((elemento) => {
-        const idx = elemento.attributi.findIndex(
-          (el) => el.nome === attributo.nome
-        );
-        elemento.attributi[idx].peso = valore;
-      });
-      setElementi(attualiElementi);
-      setAttributi(attualiAttributi);
-      resetAttributoError(attributo.nome);
-    } catch (error) {
-      const actualErrors = { ...attributiErrors };
-      actualErrors[attributo.nome] = error.message;
-      setAttributiErrors(actualErrors);
-    }
-  };
-  const resetAttributoError = (nomeAttributo) => {
-    const actualErrors = { ...attributiErrors };
-    delete actualErrors[nomeAttributo];
-    setAttributiErrors(actualErrors);
+      elemento.attributi[idx].peso = valore;
+    });
+    setElementi(attualiElementi);
+    setAttributi(attualiAttributi);
   };
 
   const handleDeleteAttributo = (nomeAttributo) => {
@@ -139,27 +127,25 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h2>Attributi</h2>
-      <div>
-        <Attributi
-          attributi={attributi}
-          onAdd={handleCreaAttributo}
-          onChange={handleChangeAttributoValue}
-          onRemove={handleDeleteAttributo}
-          onFocusOut={resetAttributoError}
-          attributiErrors={attributiErrors}
-        />
-      </div>
-      <h3>Oggetti</h3>
-      <div>
-        <Elementi
-          elementi={elementi}
-          onChange={handleChangeElementoValue}
-          onFocusOut={resetElementiError}
-        />
-      </div>
-    </div>
+    <Container fluid="md">
+      <Row>
+        <Col>
+          <Attributi
+            attributi={attributi}
+            onAdd={handleCreaAttributo}
+            onChange={handleChangeAttributoValue}
+            onRemove={handleDeleteAttributo}
+          />
+        </Col>
+        <Col>
+          <Elementi
+            elementi={elementi}
+            onChange={handleChangeElementoValue}
+            onFocusOut={resetElementiError}
+          />
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
