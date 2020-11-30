@@ -58,4 +58,16 @@ export default class AttributoValore extends Attributo {
   get valore() {
     return _valore.get(this);
   }
+
+  /**
+   * toSimpleObj
+   * @Belingheri
+   * @description ritorna oggetto con i valori come semplice oggetto di valori
+   * @returns oggetto contenete i valori attuali
+   */
+  toSimpleObj() {
+    const obj = super.toSimpleObj();
+    obj.valore = this.valore;
+    return obj;
+  }
 }
