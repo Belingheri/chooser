@@ -11,34 +11,48 @@ import {
 import Attributo from "../model/Attributo";
 
 function AttributoR({ attributo, onChange, onRemove, canRemove }) {
+  const [internalAttributo, setInternalAttributo] = useState({
+    peso: attributo.peso,
+    nome: attributo.nome,
+  });
   const [error, setError] = useState("");
 
   const handleChangeValue = ({ currentTarget: t }) => {
+    const attIternalAttributo = { ...internalAttributo };
+    attIternalAttributo.peso = t.value;
+    setInternalAttributo(attIternalAttributo);
+  };
+
+  const handleSaveValue = () => {
     try {
-      Attributo.validatePeso(t.valueAsNumber);
-      onChange(attributo, t.valueAsNumber);
+      const peso = parseInt(internalAttributo.peso);
+      Attributo.validatePeso(peso);
+      onChange(attributo, peso);
       setError("");
     } catch (error) {
+      const attIternalAttributo = { ...internalAttributo };
+      attIternalAttributo.peso = attributo.peso;
+      setInternalAttributo(attIternalAttributo);
       setError(error.message);
     }
   };
 
   return (
-    <ListGroup.Item key={attributo.nome}>
+    <ListGroup.Item key={internalAttributo.nome}>
       <InputGroup className="mb-3">
         <InputGroup.Prepend>
-          <InputGroup.Text>{attributo.nome}</InputGroup.Text>
+          <InputGroup.Text>{internalAttributo.nome}</InputGroup.Text>
         </InputGroup.Prepend>
         <FormControl
           type="number"
-          value={attributo.peso}
+          value={internalAttributo.peso}
           onChange={handleChangeValue}
-          onBlur={() => setError("")}
+          onBlur={handleSaveValue}
         />
         {canRemove && (
           <InputGroup.Append>
             <Button
-              onClick={() => onRemove(attributo.nome)}
+              onClick={() => onRemove(internalAttributo.nome)}
               variant="outline-danger"
             >
               <i className="far fa-trash-alt"></i>
