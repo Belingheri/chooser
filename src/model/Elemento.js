@@ -101,6 +101,26 @@ export default class Elemento {
     attributo.valore = valore;
     _attributi.set(this, attributi);
   }
+  /**
+   * getAttributo
+   * cerca l'attributo con in nome in input se non c'e' solleva un eccezione
+   * @param {string} nomeAttributo nome attributo da cercare
+   * @returns AttributoValore richiesto
+   * @throws {Error} attributo non esiste
+   */
+  getAttributo(nomeAttributo) {
+    if (typeof nomeAttributo !== "string")
+      throw new Error("nomeAttributo deve essere una stringa");
+    const attributi = _attributi.get(this);
+    const attributo = attributi.find(
+      (attributo) => attributo.nome === nomeAttributo
+    );
+    if (!attributo)
+      throw new Error(
+        `Attributo ${nomeAttributo} non presente in questo elemento`
+      );
+    return attributo;
+  }
 
   /**
    * removeAttributo
@@ -133,5 +153,23 @@ export default class Elemento {
       divisore += attributo.peso;
     });
     return divisore === 0 ? 0 : dividendo / divisore;
+  }
+
+  /**
+   * toSimpleObj
+   * @Belingheri
+   * @description ritorna oggetto con i valori come semplice oggetto di valori
+   * @returns oggetto contenete i valori attuali
+   */
+  toSimpleObj() {
+    const obj = {
+      descrizione: this.descrizione,
+      attributi: [],
+    };
+    this.attributi.forEach((attributoValore) => {
+      obj.attributi.push(attributoValore.toSimpleObj());
+    });
+
+    return obj;
   }
 }
