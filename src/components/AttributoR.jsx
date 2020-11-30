@@ -61,7 +61,7 @@ function AttributoR({ attributo, onChange, onRemove, canRemove }) {
         )}
       </InputGroup>
 
-      {error && <Alert variant="warning">{error}</Alert>}
+      {error && <Alert variant="danger">{error}</Alert>}
     </ListGroup.Item>
   );
 }
