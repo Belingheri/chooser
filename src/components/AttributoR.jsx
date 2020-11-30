@@ -11,16 +11,23 @@ import {
 import Attributo from "../model/Attributo";
 
 function AttributoR({ attributo, onChange, onRemove, canRemove }) {
-  const [internalAttributo, setInternalAttributo] = useState({
-    peso: attributo.peso,
-    nome: attributo.nome,
-  });
+  const [internalAttributo, setInternalAttributo] = useState(
+    attributo.toSimpleObj()
+  );
   const [error, setError] = useState("");
 
   const handleChangeValue = ({ currentTarget: t }) => {
     const attIternalAttributo = { ...internalAttributo };
     attIternalAttributo.peso = t.value;
     setInternalAttributo(attIternalAttributo);
+    try {
+      const peso = parseInt(t.value);
+      Attributo.validatePeso(peso);
+      onChange(attributo, peso);
+      setError("");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   const handleSaveValue = () => {
