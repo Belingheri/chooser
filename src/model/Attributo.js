@@ -70,6 +70,15 @@ class Attributo {
   get peso() {
     return _peso.get(this);
   }
+  /**
+   * toSimpleObj
+   * @Belingheri
+   * @description ritorna oggetto con i valori come semplice oggetto di valori
+   * @returns oggetto contenete i valori attuali
+   */
+  toSimpleObj() {
+    return { peso: this.peso, nome: this.nome };
+  }
 }
 
 export default Attributo;
