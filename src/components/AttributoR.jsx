@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  ListGroup,
-  InputGroup,
-  FormControl,
-  Button,
-  Alert,
-} from "react-bootstrap";
+import { InputGroup, FormControl, Button, Alert } from "react-bootstrap";
 
 import Attributo from "../model/Attributo";
 
@@ -45,7 +39,7 @@ function AttributoR({ attributo, onChange, onRemove, canRemove }) {
   };
 
   return (
-    <ListGroup.Item key={internalAttributo.nome}>
+    <div>
       <InputGroup className="mb-3">
         <InputGroup.Prepend>
           <InputGroup.Text>{internalAttributo.nome}</InputGroup.Text>
@@ -69,18 +63,18 @@ function AttributoR({ attributo, onChange, onRemove, canRemove }) {
       </InputGroup>
 
       {error && <Alert variant="danger">{error}</Alert>}
-    </ListGroup.Item>
+    </div>
   );
 }
 
 AttributoR.propTypes = {
   attributo: PropTypes.instanceOf(Attributo).isRequired,
   onChange: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
   canRemove: PropTypes.bool.isRequired,
+  onRemove: PropTypes.func,
 };
 
-AttributoR.defaultProp = {
+AttributoR.defaultProps = {
   canRemove: true,
 };
 export default AttributoR;

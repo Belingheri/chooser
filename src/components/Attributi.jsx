@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ListGroup } from "react-bootstrap";
 
 import Attributo from "./../model/Attributo";
 import AttributoR from "./AttributoR";
@@ -11,18 +10,15 @@ function Attributi({ attributi, onAdd, onRemove, onChange }) {
   return (
     <div>
       <h1>Attributi</h1>
-
-      <ListGroup>
-        {attributiOrdinati.map((attributo) => (
-          <AttributoR
-            key={attributo.nome}
-            attributo={attributo}
-            onChange={onChange}
-            onRemove={onRemove}
-            canRemove={attributi.length > 1}
-          />
-        ))}
-      </ListGroup>
+      {attributiOrdinati.map((attributo) => (
+        <AttributoR
+          key={attributo.nome}
+          attributo={attributo}
+          onChange={onChange}
+          onRemove={onRemove}
+          canRemove={attributi.length > 1}
+        />
+      ))}
 
       <AttributoForm attributi={attributi} onAdd={onAdd} />
     </div>
