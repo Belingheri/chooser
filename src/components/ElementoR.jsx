@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { InputGroup, FormControl, Button, Alert, Badge } from "react-bootstrap";
 
@@ -10,6 +10,10 @@ function ElementoR({ elemento, onChange }) {
     elemento.toSimpleObj()
   );
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setInternalElemento(elemento.toSimpleObj());
+  }, [elemento, elemento.attributi.length]);
 
   const handleChange = (attributoValore, valore) => {
     const attInternalElemento = { ...internalElemento };
