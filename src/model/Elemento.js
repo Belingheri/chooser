@@ -10,6 +10,22 @@ const _attributi = new WeakMap([]);
  */
 export default class Elemento {
   /**
+   * validateDescrizione
+   * @Belingheri
+   * @description valida il campo descrizione
+   * @param {string} descrizione descrizione dell'elemento
+   * @throws {Error} se non rispetta i requisiti richiesti
+   */
+  static validateDescrizione(descrizione) {
+    if (typeof descrizione !== "string")
+      throw new Error("descrizione deve essere una stringa");
+    if (!/^[\w]+$/.test(descrizione))
+      throw new Error(
+        "descrizione puo' essere composto solamente da lettere numeri o '_' "
+      );
+  }
+
+  /**
    * creaElemento
    * @Belingheri
    * @description Crea un nuovo elemento con tutti gli attributi in input
@@ -40,8 +56,7 @@ export default class Elemento {
   }
 
   set descrizione(descrizione) {
-    if (typeof descrizione !== "string")
-      throw new Error("descrizione deve essere una stringa");
+    Elemento.validateDescrizione(descrizione);
     _descrizione.set(this, descrizione);
   }
   get descrizione() {

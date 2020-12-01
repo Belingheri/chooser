@@ -3,6 +3,7 @@ import { Container, Row, Col, Navbar } from "react-bootstrap";
 
 import Attributi from "./components/Attributi";
 import Elementi from "./components/Elementi";
+import ElementoForm from "./components/ElementoForm";
 
 import Attributo from "./model/Attributo";
 import AttributoValore from "./model/AttributoValore";
@@ -126,6 +127,12 @@ function App() {
     }
   };
 
+  const handleCreaElemento = (elementoToAdd) => {
+    const attElementi = [...elementi];
+    attElementi.push(elementoToAdd);
+    setElementi(attElementi);
+  };
+
   return (
     <div>
       <Navbar bg="light">
@@ -140,6 +147,7 @@ function App() {
               onChange={handleChangeAttributoValue}
               onRemove={handleDeleteAttributo}
             />
+            <ElementoForm attributi={attributi} onAdd={handleCreaElemento} />
           </Col>
           <Col>
             <Elementi
