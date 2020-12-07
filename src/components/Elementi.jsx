@@ -4,19 +4,18 @@ import PropTypes from "prop-types";
 import ElementoR from "./ElementoR";
 
 import Elemento from "../model/Elemento";
+import { Button } from "react-bootstrap";
 
-function Elementi({
-  elementi,
-  onAdd,
-  onRemove,
-  onChange,
-  elementiErrors,
-  onFocusOut,
-}) {
+function Elementi({ elementi, onChange, onSaveDecisione }) {
   const elementiOrdinati = elementi.sort((a, b) => b.valore - a.valore);
   return (
     <div>
-      <h1>Oggetti</h1>
+      <h1>
+        Oggetti{" "}
+        <Button variant="success" className="mx-4" onClick={onSaveDecisione}>
+          Salva Selezione
+        </Button>
+      </h1>
       {elementiOrdinati.map((elemento) => {
         return (
           <ElementoR
@@ -36,6 +35,7 @@ Elementi.propTypes = {
   onRemove: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onFocusOut: PropTypes.func.isRequired,
+  onSaveDecisione: PropTypes.func.isRequired,
   elementiErrors: PropTypes.object,
 };
 
