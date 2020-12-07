@@ -127,9 +127,16 @@ function App() {
     }
   };
 
-  const handleCreaElemento = (elementoToAdd) => {
+  const handleCreaElemento = (descrizione, listaAttributi) => {
+    const el = elementi.find((e) => e.descrizione === descrizione);
+    if (el) throw new Error(`Elemento ${descrizione} gia' esistente`);
+    const listaAttributiValore = listaAttributi.map((a) => {
+      const peso = attributi.find((e) => e.nome === a.nome).peso;
+      return new AttributoValore(a.nome, peso, a.valore);
+    });
+    const elementoToSave = new Elemento(descrizione, ...listaAttributiValore);
     const attElementi = [...elementi];
-    attElementi.push(elementoToAdd);
+    attElementi.push(elementoToSave);
     setElementi(attElementi);
   };
 
