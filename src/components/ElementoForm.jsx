@@ -4,8 +4,8 @@ import { Form, Row, Col, Button, Alert } from "react-bootstrap";
 
 import Attributo from "./../model/Attributo";
 import Elemento from "./../model/Elemento";
-import AttributoR from "./AttributoR";
-import AttributoValore from "./../model/AttributoValore";
+import AttributoElemento from "./AttributoElemento";
+import AttributoValore from "../model/AttributoValore";
 
 function ElementoForm({ attributi, onAdd }) {
   const [elemento, setElemento] = useState({ descrizione: "", attributi: [] });
@@ -16,16 +16,18 @@ function ElementoForm({ attributi, onAdd }) {
     const attElemento = {};
     if (!attElemento.descrizione) attElemento.descrizione = "";
     const attAttributi = [...attributi];
-    attElemento.attributi = attAttributi;
+    attElemento.attributi = attAttributi.map((a) =>
+      AttributoValore.creaAttributoValore(a)
+    );
     setElemento(attElemento);
   }, [attributi.length, attributi]);
 
   const handleChangeDescrizione = ({ currentTarget: t }) => {
+    const attElemento = { ...elemento };
+    attElemento.descrizione = t.value;
+    setElemento(attElemento);
     try {
       Elemento.validateDescrizione(t.value);
-      const attElemento = { ...elemento };
-      attElemento.descrizione = t.value;
-      setElemento(attElemento);
       setErrorDescrizione("");
     } catch (error) {
       setErrorDescrizione(error.message);
@@ -37,7 +39,7 @@ function ElementoForm({ attributi, onAdd }) {
     const idx = attElemento.attributi.findIndex(
       (e) => e.nome === attributo.nome
     );
-    attElemento.attributi[idx].peso = valore;
+    attElemento.attributi[idx].valore = valore;
     setElemento(attElemento);
   };
 
@@ -45,18 +47,10 @@ function ElementoForm({ attributi, onAdd }) {
     e.preventDefault();
     let attErrorForm = "";
     try {
-      // devo convertie tutti gli attributi dello state Attributi valore
-      // attenzione il valore che deve contenere e' in .peso mentre il peso lo si trova
-      // in attributi.peso
-      const listaAttributiValore = elemento.attributi.map((a) => {
-        const veroPeso = attributi.find((e) => e.nome === a.nome).peso;
-        return new AttributoValore(a.nome, veroPeso, a.peso);
-      });
-      const elementoToSave = new Elemento(
-        elemento.descrizione,
-        ...listaAttributiValore
-      );
-      onAdd(elementoToSave);
+      onAdd(elemento.descrizione, elemento.attributi);
+      const attElemento = { ...elemento };
+      attElemento.descrizione = "";
+      setElemento(attElemento);
     } catch (error) {
       attErrorForm = error.message;
     }
@@ -86,11 +80,10 @@ function ElementoForm({ attributi, onAdd }) {
         </Form.Group>
         {elemento.attributi.map((attributo) => {
           return (
-            <AttributoR
+            <AttributoElemento
               key={attributo.nome}
               attributo={attributo}
               onChange={handleChangeAttributo}
-              canRemove={false}
             />
           );
         })}
