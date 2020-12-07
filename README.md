@@ -1,6 +1,22 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+# Be Prometeo
+Ciao 👋 fai la decisione giusta ! 
+Questo è quello che fece Prometeo donandoci il fuoco quando eravamo al buio (o almeno questo dice la [leggenda](https://it.wikipedia.org/wiki/Prometeo#Mitologia)) .
+## Fai la tua Scelta !!
+La webapp serve per prendere decisioni in base agli attributi che setti te.
+Ogni attributo ha un peso da te definito ed ogni elemento ha tutti gli attributi definiti con un valore da te stabilito.
+In maniera runtime viene mostrato l'eleemnto migliore secondo i tuoi parametri !
+
+Vuoi vedere una [demo](https://be-prometeo.herokuapp.com/) ?
+Se desidere eseguire il codice localmente gaurda la sezione sotto 🤯🥴.
+
+L'applicazione gira localmente e non necessita di login/webservice/Db.
+Tutti i dati sono storati localmente nella `localStorage` del Browser.
+Successivamente le condizioni varieranno.
+Buona scelta🤗.
+
+
 
 ## Available Scripts
 
