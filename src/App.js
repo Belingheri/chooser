@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Navbar } from "react-bootstrap";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import Decisione from "./components/Decisione";
+import Navigator from "./components/Navigator";
+import Routering from "./components/Routerig";
 
 import * as DecisioniService from "./service/Decisioni";
 
@@ -14,13 +15,10 @@ function App() {
   }, [indexDecisione]);
 
   return (
-    <main>
-      <Navbar bg="light">
-        <Navbar.Brand href="#home">Be Prometeo</Navbar.Brand>
-        <Navbar.Text>{indexDecisione}</Navbar.Text>
-      </Navbar>
-      <Decisione decisione={actualDecisione} />
-    </main>
+    <Router>
+      <Navigator nomeDecisione={indexDecisione} />
+      <Routering actualDecisione={actualDecisione} />
+    </Router>
   );
 }
 
