@@ -149,30 +149,28 @@ function Decisione({ decisione }) {
 
   return (
     <div>
-      <Container>
-        <Row>
-          <Col sm={4}>
-            <Attributi
-              attributi={internalAttributi}
-              onAdd={handleCreaAttributo}
-              onChange={handleChangeAttributoValue}
-              onRemove={handleDeleteAttributo}
-            />
-            <ElementoForm
-              attributi={internalAttributi}
-              onAdd={handleCreaElemento}
-            />
-          </Col>
-          <Col>
-            <Elementi
-              elementi={internalElementi}
-              onChange={handleChangeElementoValue}
-              onFocusOut={resetElementiError}
-              onSaveDecisione={handleSave}
-            />
-          </Col>
-        </Row>
-      </Container>
+      <Row>
+        <Col sm={4}>
+          <Attributi
+            attributi={internalAttributi}
+            onAdd={handleCreaAttributo}
+            onChange={handleChangeAttributoValue}
+            onRemove={handleDeleteAttributo}
+          />
+          <ElementoForm
+            attributi={internalAttributi}
+            onAdd={handleCreaElemento}
+          />
+        </Col>
+        <Col>
+          <Elementi
+            elementi={internalElementi}
+            onChange={handleChangeElementoValue}
+            onFocusOut={resetElementiError}
+            onSaveDecisione={handleSave}
+          />
+        </Col>
+      </Row>
     </div>
   );
 }
