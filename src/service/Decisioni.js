@@ -2,7 +2,8 @@ const defaultDecisione =
   '{"attributi":[{"nome":"consumo","peso":7},{"nome":"potenza","peso":3}],"elementi":[{"descrizione":"panda","attributi":[{"nome":"consumo","peso":7,"valore":9},{"nome":"potenza","peso":3,"valore":1}]},{"descrizione":"ferrari","attributi":[{"nome":"consumo","peso":7,"valore":1},{"nome":"potenza","peso":3,"valore":10}]},{"descrizione":"fiesta","attributi":[{"nome":"consumo","peso":7,"valore":8},{"nome":"potenza","peso":3,"valore":6}]}]}';
 const defaultName = "DEFAULT";
 
-const decisioneAttuale = `${process.env.REACT_APP_NAME}.SELECTED_DECISIONE`;
+const prefissoVariabiliInterne = `${process.env.REACT_APP_NAME}.`;
+const decisioneAttuale = `${prefissoVariabiliInterne}SELECTED_DECISIONE`;
 
 /**
  * get
@@ -47,5 +48,13 @@ function save(elementi, attributi) {
   };
   localStorage.setItem(getSelectedName(), JSON.stringify(elemnt));
 }
+/**
+ * @returns {Array} tutti i nomi delle decisioni
+ */
+function getAll() {
+  return Object.keys(localStorage).filter(
+    (e) => !e.startsWith(prefissoVariabiliInterne)
+  );
+}
 
-export { get, getSelectedName, setSelectedName, save };
+export { get, getSelectedName, setSelectedName, save, getAll };
