@@ -45,11 +45,11 @@ function setSelectedName(nomeDecisione) {
  * @param {Array<AttributoValore>} attributi attributi da salvare
  */
 function save(elementi, attributi) {
-  const elemnt = {
+  const element = {
     attributi: attributi.map((a) => a.toSimpleObj()),
     elementi: elementi.map((e) => e.toSimpleObj()),
   };
-  localStorage.setItem(getSelectedName(), JSON.stringify(elemnt));
+  localStorage.setItem(getSelectedName(), JSON.stringify(element));
 }
 /**
  * @returns {Array} tutti i nomi delle decisioni
@@ -67,12 +67,20 @@ function getAll() {
 function addDecisione(nomeDecisione) {
   validateNomeDecisione(nomeDecisione);
   // creo degli attributi fittizzi
-  const attributi = [new Attributo("default", Attributo.pesoMinimo)];
-  const attributiValore = [AttributoValore.creaAttributoValore(attributi[0])];
-  const elemento = new Elemento(nomeDecisione, attributiValore);
-  // fix
-  throw new Error("sistemami");
-  //save(elemento, attributi);
+  const attributo = new Attributo("attributoDefault", Attributo.pesoMinimo);
+  const elementi = [
+    new Elemento(
+      "elementoDefault",
+      AttributoValore.creaAttributoValore(attributo)
+    ),
+  ];
+  const oldSelectedName = getSelectedName();
+  try {
+    setSelectedName(nomeDecisione);
+    save(elementi, [attributo]);
+  } catch (error) {
+    setSelectedName(oldSelectedName);
+  }
 }
 /**
  * @desciprion controlla se il nome da assegnare è valido
@@ -85,6 +93,8 @@ function validateNomeDecisione(nomeDecisione) {
     throw new Error("Decisione deve esere una stringa");
   if (!nomeDecisione.match(/^\w+$/i))
     throw new Error("Il nome può comprendere solo lettere, numeri e _");
+  if (getAll().includes(nomeDecisione))
+    throw new Error("Decisione già presente");
 }
 
 export {
