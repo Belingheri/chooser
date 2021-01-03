@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { InputGroup, FormControl, Button, Alert, Form } from "react-bootstrap";
 import * as DecisioniService from "../service/Decisioni";
 
@@ -6,12 +7,15 @@ function NuovaDecisone() {
   const [nomeDecisione, setNomeDecisione] = useState("");
   const [errore, setErrore] = useState("");
 
+  const history = useHistory();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
       DecisioniService.addDecisione(nomeDecisione);
       setErrore("");
       setNomeDecisione("");
+      history.push("/attuale");
     } catch (error) {
       setErrore(error.message);
     }
