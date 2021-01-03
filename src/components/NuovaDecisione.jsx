@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 import { InputGroup, FormControl, Button, Alert, Form } from "react-bootstrap";
 import * as DecisioniService from "../service/Decisioni";
 
-function NuovaDecisone() {
+function NuovaDecisone(onAdd) {
   const [nomeDecisione, setNomeDecisione] = useState("");
   const [errore, setErrore] = useState("");
 
@@ -51,5 +52,9 @@ function NuovaDecisone() {
     </Form>
   );
 }
+
+NuovaDecisone.propTypes = {
+  onAdd: PropTypes.func.isRequired,
+};
 
 export default NuovaDecisone;

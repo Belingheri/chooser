@@ -5,7 +5,7 @@ import * as DecisioniService from "../service/Decisioni";
 import { ListGroup, ListGroupItem, Badge, Button } from "react-bootstrap";
 import NuovaDecisone from "./NuovaDecisione";
 
-function ListaDecisioni({ nomeDecisione }) {
+function ListaDecisioni({ nomeDecisione, onChangeSelected }) {
   const [decisioni, setDecisioni] = useState([]);
 
   useEffect(() => {
@@ -28,11 +28,11 @@ function ListaDecisioni({ nomeDecisione }) {
   };
   return (
     <div>
-      <NuovaDecisone />
+      <NuovaDecisone onAdd={onChangeSelected} />
       <ListGroup>
         {decisioni.map((e) => {
           return (
-            <ListGroupItem key={e}>
+            <ListGroupItem key={e} onClick={() => onChangeSelected(e)}>
               {renderDecisioneName(e)}
               {decisioni.length > 1 && (
                 <Button variant="outline-danger" className="float-right">
@@ -49,6 +49,7 @@ function ListaDecisioni({ nomeDecisione }) {
 
 ListaDecisioni.propTypes = {
   nomeDecisione: PropTypes.string.isRequired,
+  onChangeSelected: PropTypes.func.isRequired,
 };
 
 export default ListaDecisioni;
