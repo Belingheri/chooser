@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import * as DecisioniService from "../service/Decisioni";
 import { ListGroup, ListGroupItem, Badge, Button } from "react-bootstrap";
+import NuovaDecisone from "./NuovaDecisione";
 
 function ListaDecisioni({ nomeDecisione }) {
   const [decisioni, setDecisioni] = useState([]);
@@ -26,20 +27,23 @@ function ListaDecisioni({ nomeDecisione }) {
     return decisione;
   };
   return (
-    <ListGroup>
-      {decisioni.map((e) => {
-        return (
-          <ListGroupItem key={e}>
-            {renderDecisioneName(e)}
-            {decisioni.length > 1 && (
-              <Button variant="outline-danger" className="float-right">
-                <i className="far fa-trash-alt"></i>
-              </Button>
-            )}
-          </ListGroupItem>
-        );
-      })}
-    </ListGroup>
+    <div>
+      <NuovaDecisone />
+      <ListGroup>
+        {decisioni.map((e) => {
+          return (
+            <ListGroupItem key={e}>
+              {renderDecisioneName(e)}
+              {decisioni.length > 1 && (
+                <Button variant="outline-danger" className="float-right">
+                  <i className="far fa-trash-alt"></i>
+                </Button>
+              )}
+            </ListGroupItem>
+          );
+        })}
+      </ListGroup>
+    </div>
   );
 }
 
