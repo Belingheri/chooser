@@ -96,6 +96,17 @@ function validateNomeDecisione(nomeDecisione) {
   if (getAll().includes(nomeDecisione))
     throw new Error("Decisione già presente");
 }
+/**
+ * rimuove la decisione e setta una decisione tra quelle presenti
+ * @param {string} nomeDecisione
+ */
+function remove(nomeDecisione) {
+  if (!getAll().includes(nomeDecisione))
+    throw new Error(`${nomeDecisione} non trovato`);
+  localStorage.removeItem(nomeDecisione);
+  const nuovoSelezionato = getAll()[0];
+  setSelectedName(nuovoSelezionato);
+}
 
 export {
   get,
@@ -105,4 +116,5 @@ export {
   getAll,
   addDecisione,
   validateNomeDecisione,
+  remove,
 };
