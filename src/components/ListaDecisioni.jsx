@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { ListGroup, ListGroupItem, Badge, Button } from "react-bootstrap";
 
 import * as DecisioniService from "../service/Decisioni";
-import { ListGroup, ListGroupItem, Badge, Button } from "react-bootstrap";
 import NuovaDecisone from "./NuovaDecisione";
 
 function ListaDecisioni({ nomeDecisione, onChangeSelected }) {
   const [decisioni, setDecisioni] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     const decisioniSorted = DecisioniService.getAll().sort((a, b) => a - b);
@@ -26,16 +28,39 @@ function ListaDecisioni({ nomeDecisione, onChangeSelected }) {
       );
     return decisione;
   };
+
+  const handleSelectItem = (nomeDecisione) => {
+    onChangeSelected(nomeDecisione);
+    history.push("/attuale");
+  };
+
+  const handleDeleteDecisione = (e, nomeDecisione) => {
+    e.preventDefault();
+    e.stopPropagation();
+    DecisioniService.remove(nomeDecisione);
+    onChangeSelected(DecisioniService.getSelectedName());
+    const idx = decisioni.findIndex((e) => e === nomeDecisione);
+    const newDecisioni = decisioni.splice(idx, 1);
+    setDecisioni(newDecisioni);
+  };
+
   return (
     <div>
       <NuovaDecisone onAdd={onChangeSelected} />
       <ListGroup>
-        {decisioni.map((e) => {
+        {decisioni.map((decisione) => {
           return (
-            <ListGroupItem key={e} onClick={() => onChangeSelected(e)}>
-              {renderDecisioneName(e)}
+            <ListGroupItem
+              key={decisione}
+              onClick={() => handleSelectItem(decisione)}
+            >
+              {renderDecisioneName(decisione)}
               {decisioni.length > 1 && (
-                <Button variant="outline-danger" className="float-right">
+                <Button
+                  variant="outline-danger"
+                  className="float-right"
+                  onClick={(e) => handleDeleteDecisione(e, decisione)}
+                >
                   <i className="far fa-trash-alt"></i>
                 </Button>
               )}
