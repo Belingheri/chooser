@@ -1,7 +1,7 @@
 
 
 # Be Prometeo
-Ciao 👋 fai la decisione giusta ! 
+Ciao 👋  fai la decisione giusta ! 
 Questo è quello che fece Prometeo donandoci il fuoco quando eravamo al buio (o almeno questo dice la [leggenda](https://it.wikipedia.org/wiki/Prometeo#Mitologia)) .
 ## Fai la tua Scelta !!
 La webapp serve per prendere decisioni in base agli attributi che setti te.
@@ -9,7 +9,11 @@ Ogni attributo ha un peso da te definito ed ogni elemento ha tutti gli attributi
 In maniera runtime viene mostrato l'eleemnto migliore secondo i tuoi parametri !
 
 Vuoi vedere una [demo](https://be-prometeo.herokuapp.com/) ?
-Se desidere eseguire il codice localmente gaurda la sezione sotto 🤯🥴.
+Se desideri eseguire il codice localmente guarda la sezione sotto 🤯🥴, oppure lancia nel terminale
+```cmd
+npm i
+npm start
+```
 
 L'applicazione gira localmente e non necessita di login/webservice/Db.
 Tutti i dati sono storati localmente nella `localStorage` del Browser.
