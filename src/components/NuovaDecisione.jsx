@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { InputGroup, FormControl, Button, Alert, Form } from "react-bootstrap";
 import * as DecisioniService from "../service/Decisioni";
 
-function NuovaDecisone(onAdd) {
+function NuovaDecisone({ onAdd }) {
   const [nomeDecisione, setNomeDecisione] = useState("");
   const [errore, setErrore] = useState("");
 
@@ -16,6 +16,7 @@ function NuovaDecisone(onAdd) {
       DecisioniService.addDecisione(nomeDecisione);
       setErrore("");
       setNomeDecisione("");
+      onAdd(nomeDecisione);
       history.push("/attuale");
     } catch (error) {
       setErrore(error.message);
