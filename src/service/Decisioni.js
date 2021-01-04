@@ -104,8 +104,10 @@ function remove(nomeDecisione) {
   if (!getAll().includes(nomeDecisione))
     throw new Error(`${nomeDecisione} non trovato`);
   localStorage.removeItem(nomeDecisione);
-  const nuovoSelezionato = getAll()[0];
-  setSelectedName(nuovoSelezionato);
+  if (nomeDecisione === getSelectedName()) {
+    const nuovoSelezionato = getAll()[0];
+    setSelectedName(nuovoSelezionato);
+  }
 }
 
 export {

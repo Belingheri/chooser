@@ -37,10 +37,13 @@ function ListaDecisioni({ nomeDecisione, onChangeSelected }) {
   const handleDeleteDecisione = (e, nomeDecisione) => {
     e.preventDefault();
     e.stopPropagation();
+    const attSelected = DecisioniService.getSelectedName();
     DecisioniService.remove(nomeDecisione);
-    onChangeSelected(DecisioniService.getSelectedName());
-    const idx = decisioni.findIndex((e) => e === nomeDecisione);
-    const newDecisioni = decisioni.splice(idx, 1);
+    if (nomeDecisione === attSelected)
+      onChangeSelected(DecisioniService.getSelectedName());
+    const idx = decisioni.findIndex((el) => el === nomeDecisione);
+    const newDecisioni = [...decisioni];
+    newDecisioni.splice(idx, 1);
     setDecisioni(newDecisioni);
   };
 
