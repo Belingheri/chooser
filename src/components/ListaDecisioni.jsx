@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
-import * as DecisioniService from "../service/Decisioni";
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { ListGroup, ListGroupItem, Badge, Button } from "react-bootstrap";
 
-function ListaDecisioni({ nomeDecisione }) {
+import * as DecisioniService from "../service/Decisioni";
+import NuovaDecisone from "./NuovaDecisione";
+
+function ListaDecisioni({ nomeDecisione, onChangeSelected }) {
   const [decisioni, setDecisioni] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     const decisioniSorted = DecisioniService.getAll().sort((a, b) => a - b);
@@ -25,26 +28,56 @@ function ListaDecisioni({ nomeDecisione }) {
       );
     return decisione;
   };
+
+  const handleSelectItem = (nomeDecisione) => {
+    onChangeSelected(nomeDecisione);
+    history.push("/attuale");
+  };
+
+  const handleDeleteDecisione = (e, nomeDecisione) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const attSelected = DecisioniService.getSelectedName();
+    DecisioniService.remove(nomeDecisione);
+    if (nomeDecisione === attSelected)
+      onChangeSelected(DecisioniService.getSelectedName());
+    const idx = decisioni.findIndex((el) => el === nomeDecisione);
+    const newDecisioni = [...decisioni];
+    newDecisioni.splice(idx, 1);
+    setDecisioni(newDecisioni);
+  };
+
   return (
-    <ListGroup>
-      {decisioni.map((e) => {
-        return (
-          <ListGroupItem key={e}>
-            {renderDecisioneName(e)}
-            {decisioni.length > 1 && (
-              <Button variant="outline-danger" className="float-right">
-                <i className="far fa-trash-alt"></i>
-              </Button>
-            )}
-          </ListGroupItem>
-        );
-      })}
-    </ListGroup>
+    <div>
+      <NuovaDecisone onAdd={onChangeSelected} />
+      <ListGroup>
+        {decisioni.map((decisione) => {
+          return (
+            <ListGroupItem
+              key={decisione}
+              onClick={() => handleSelectItem(decisione)}
+            >
+              {renderDecisioneName(decisione)}
+              {decisioni.length > 1 && (
+                <Button
+                  variant="outline-danger"
+                  className="float-right"
+                  onClick={(e) => handleDeleteDecisione(e, decisione)}
+                >
+                  <i className="far fa-trash-alt"></i>
+                </Button>
+              )}
+            </ListGroupItem>
+          );
+        })}
+      </ListGroup>
+    </div>
   );
 }
 
 ListaDecisioni.propTypes = {
   nomeDecisione: PropTypes.string.isRequired,
+  onChangeSelected: PropTypes.func.isRequired,
 };
 
 export default ListaDecisioni;

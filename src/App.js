@@ -26,7 +26,7 @@ function App() {
       <Routering
         actualDecisione={actualDecisione}
         nomeDecisione={indexDecisione}
-        onChange={handleChangeDecisione}
+        onChangeSelected={handleChangeDecisione}
       />
     </Router>
   );

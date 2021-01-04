@@ -5,7 +5,12 @@ import { Container } from "react-bootstrap";
 import Decisione from "./Decisione";
 import ListaDecisioni from "./ListaDecisioni";
 
-function Routering({ actualDecisione, nomeDecisione, ...rest }) {
+function Routering({
+  actualDecisione,
+  nomeDecisione,
+  onChangeSelected,
+  ...rest
+}) {
   return (
     <Container>
       <Switch>
@@ -16,7 +21,11 @@ function Routering({ actualDecisione, nomeDecisione, ...rest }) {
           <Decisione decisione={actualDecisione} />
         </Route>
         <Route path="/lista-decisioni">
-          <ListaDecisioni nomeDecisione={nomeDecisione} {...rest} />
+          <ListaDecisioni
+            nomeDecisione={nomeDecisione}
+            onChangeSelected={onChangeSelected}
+            {...rest}
+          />
         </Route>
       </Switch>
     </Container>
@@ -26,6 +35,7 @@ function Routering({ actualDecisione, nomeDecisione, ...rest }) {
 Routering.propTypes = {
   actualDecisione: PropTypes.string.isRequired,
   nomeDecisione: PropTypes.string.isRequired,
+  onChangeSelected: PropTypes.func.isRequired,
 };
 
 export default Routering;
