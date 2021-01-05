@@ -30,7 +30,8 @@ function ListaDecisioni({ nomeDecisione, onChangeSelected }) {
   };
 
   const handleSelectItem = (nomeDecisione) => {
-    onChangeSelected(nomeDecisione);
+    if (nomeDecisione !== DecisioniService.getSelectedName())
+      onChangeSelected(nomeDecisione);
     history.push("/attuale");
   };
 
@@ -50,7 +51,7 @@ function ListaDecisioni({ nomeDecisione, onChangeSelected }) {
   return (
     <div>
       <NuovaDecisone onAdd={onChangeSelected} />
-      <ListGroup>
+      <ListGroup className="cliccabile">
         {decisioni.map((decisione) => {
           return (
             <ListGroupItem

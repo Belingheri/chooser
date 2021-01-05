@@ -17,6 +17,7 @@ function App() {
   }, [indexDecisione]);
 
   const handleChangeDecisione = (decisione) => {
+    DecisioniService.setSelectedName(decisione);
     setIndexDecisione(decisione);
   };
 
