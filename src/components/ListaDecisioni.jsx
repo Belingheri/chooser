@@ -51,7 +51,7 @@ function ListaDecisioni({ nomeDecisione, onChangeSelected }) {
   return (
     <div>
       <NuovaDecisone onAdd={onChangeSelected} />
-      <ListGroup>
+      <ListGroup className="cliccabile">
         {decisioni.map((decisione) => {
           return (
             <ListGroupItem
