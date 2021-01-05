@@ -30,7 +30,8 @@ function ListaDecisioni({ nomeDecisione, onChangeSelected }) {
   };
 
   const handleSelectItem = (nomeDecisione) => {
-    onChangeSelected(nomeDecisione);
+    if (nomeDecisione !== DecisioniService.getSelectedName())
+      onChangeSelected(nomeDecisione);
     history.push("/attuale");
   };
 
