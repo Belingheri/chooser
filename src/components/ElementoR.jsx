@@ -5,7 +5,7 @@ import { InputGroup, FormControl, Button, Alert, Badge } from "react-bootstrap";
 import Elemento from "./../model/Elemento";
 import AttributoValore from "./../model/AttributoValore";
 
-function ElementoR({ elemento, onChange }) {
+function ElementoR({ elemento, onChange, onDelete, canDelete }) {
   const [internalElemento, setInternalElemento] = useState(
     elemento.toSimpleObj()
   );
@@ -58,6 +58,10 @@ function ElementoR({ elemento, onChange }) {
     setErrors(attErrors);
   };
 
+  const handleDeleteClick = () => {
+    onDelete(internalElemento.descrizione);
+  };
+
   return (
     <div>
       <h2>
@@ -65,6 +69,16 @@ function ElementoR({ elemento, onChange }) {
         <Badge variant="secondary">
           {Math.round(elemento.valore * 100) / 100}
         </Badge>{" "}
+        {canDelete && (
+          <Button
+            className="float-right my-2"
+            size="sm"
+            onClick={handleDeleteClick}
+            variant="outline-danger"
+          >
+            <i className="far fa-trash-alt"></i>
+          </Button>
+        )}
       </h2>
       {internalElemento.attributi.map((att) => {
         return (
@@ -117,6 +131,8 @@ function ElementoR({ elemento, onChange }) {
 ElementoR.propTypes = {
   elemento: PropTypes.instanceOf(Elemento).isRequired,
   onChange: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  canDelete: PropTypes.bool.isRequired,
 };
 
 export default ElementoR;

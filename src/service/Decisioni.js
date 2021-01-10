@@ -67,12 +67,9 @@ function getAll() {
 function addDecisione(nomeDecisione) {
   validateNomeDecisione(nomeDecisione);
   // creo degli attributi fittizzi
-  const attributo = new Attributo("attributoDefault", Attributo.pesoMinimo);
+  const attributo = new Attributo("attr", Attributo.pesoMinimo);
   const elementi = [
-    new Elemento(
-      "elementoDefault",
-      AttributoValore.creaAttributoValore(attributo)
-    ),
+    new Elemento("elem", AttributoValore.creaAttributoValore(attributo)),
   ];
   const oldSelectedName = getSelectedName();
   try {

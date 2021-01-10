@@ -139,6 +139,15 @@ function Decisione({ decisione }) {
     setInternalElementi(attElementi);
   };
 
+  const handleDeleteElemento = (descrizione) => {
+    const attualiElementi = [...internalElementi];
+    const idx = attualiElementi.findIndex(
+      (el) => el.descrizione === descrizione
+    );
+    attualiElementi.splice(idx, 1);
+    setInternalElementi(attualiElementi);
+  };
+
   const handleSave = () => {
     try {
       DecisioniService.save(internalElementi, internalAttributi);
@@ -168,6 +177,7 @@ function Decisione({ decisione }) {
             onChange={handleChangeElementoValue}
             onFocusOut={resetElementiError}
             onSaveDecisione={handleSave}
+            onDelete={handleDeleteElemento}
           />
         </Col>
       </Row>
