@@ -2,7 +2,7 @@
 
 # Be Prometeo
 Ciao 👋  fai la decisione giusta ! 
-Questo è quello che fece Prometeo donandoci il fuoco quando eravamo al buio (o almeno questo dice la [leggenda](https://it.wikipedia.org/wiki/Prometeo#Mitologia)) .
+Questo è quello che fece Prometeo donandoci il fuoco quando eravamo al buio (o almeno questo dice il [mito](https://it.wikipedia.org/wiki/Prometeo#Mitologia)) .
 ## Fai la tua Scelta !!
 La webapp serve per prendere decisioni in base agli attributi che setti te.
 Ogni attributo ha un peso da te definito ed ogni elemento ha tutti gli attributi definiti con un valore da te stabilito.
