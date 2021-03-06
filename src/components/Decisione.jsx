@@ -19,27 +19,29 @@ function Decisione({ decisione }) {
 
   useEffect(() => {
     try {
-      const decisioneObj = JSON.parse(decisione);
-      const attAttributi = decisioneObj.attributi.map(
-        (a) => new Attributo(a.nome, a.peso)
-      );
-
-      const defaultElementi = decisioneObj.elementi.map((e) => {
-        return new Elemento(
-          e.descrizione,
-          ...e.attributi.map((a) =>
-            AttributoValore.creaAttributoValore(
-              new Attributo(a.nome, a.peso),
-              a.valore
-            )
-          )
+      // la prima volta la decisione = {}
+      if (decisione.attributi) {
+        const attAttributi = decisione.attributi.map(
+          (a) => new Attributo(a.nome, a.peso)
         );
-      });
-
-      setInternalAttributi(attAttributi);
-      setInternalElementi(defaultElementi);
+        setInternalAttributi(attAttributi);
+      }
+      if (decisione.elementi) {
+        const defaultElementi = decisione.elementi.map((e) => {
+          return new Elemento(
+            e.descrizione,
+            ...e.attributi.map((a) =>
+              AttributoValore.creaAttributoValore(
+                new Attributo(a.nome, a.peso),
+                a.valore
+              )
+            )
+          );
+        });
+        setInternalElementi(defaultElementi);
+      }
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
     }
   }, [decisione]);
 
@@ -75,7 +77,7 @@ function Decisione({ decisione }) {
       setInternalAttributi(attAttributi);
       setInternalElementi(attElementi);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert(error.message);
     }
   };
@@ -122,7 +124,7 @@ function Decisione({ decisione }) {
       setInternalElementi(attElementi);
     } catch (error) {
       alert(error.message);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -186,7 +188,7 @@ function Decisione({ decisione }) {
 }
 
 Decisione.propTypes = {
-  decisione: PropTypes.string.isRequired,
+  decisione: PropTypes.object.isRequired,
 };
 
 export default Decisione;
