@@ -33,7 +33,7 @@ function Routering({
 }
 
 Routering.propTypes = {
-  actualDecisione: PropTypes.string.isRequired,
+  actualDecisione: PropTypes.object.isRequired,
   nomeDecisione: PropTypes.string.isRequired,
   onChangeSelected: PropTypes.func.isRequired,
 };

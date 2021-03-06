@@ -10,7 +10,7 @@ function App() {
   const [indexDecisione, setIndexDecisione] = useState(
     DecisioniService.getSelectedName()
   );
-  const [actualDecisione, setActualDecisione] = useState("");
+  const [actualDecisione, setActualDecisione] = useState({});
 
   useEffect(() => {
     setActualDecisione(DecisioniService.get());

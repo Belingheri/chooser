@@ -9,17 +9,19 @@ const prefissoVariabiliInterne = `${process.env.REACT_APP_NAME}.`;
 const decisioneAttuale = `${prefissoVariabiliInterne}SELECTED_DECISIONE`;
 
 /**
- * get
- * @returns il valore dellla decisione attuale
+ * Ritorna l'oggetto che descrive la decisione se non esiste in memoria lo crea con gli attributi di default
+ * @param {string} [nomeDecisione] nome della decisione
+ * @returns {object} il valore dellla decisione attuale
  */
-function get() {
-  if (!localStorage.getItem(getSelectedName()))
-    localStorage.setItem(getSelectedName(), defaultDecisione);
-  return localStorage.getItem(getSelectedName());
+function get(nomeDecisione) {
+  let _decisione = nomeDecisione || getSelectedName();
+  if (!localStorage.getItem(_decisione))
+    localStorage.setItem(_decisione, defaultDecisione);
+  return JSON.parse(localStorage.getItem(_decisione));
 }
 /**
  * getSelectedName
- * @returns nome della decisione attuale
+ * @returns {string} nome della decisione attuale
  */
 function getSelectedName() {
   let nomeDecisioneAttuale = localStorage.getItem(decisioneAttuale);
@@ -52,7 +54,7 @@ function save(elementi, attributi) {
   localStorage.setItem(getSelectedName(), JSON.stringify(element));
 }
 /**
- * @returns {Array} tutti i nomi delle decisioni
+ * @returns {Array<string>} tutti i nomi delle decisioni
  */
 function getAll() {
   return Object.keys(localStorage).filter(
