@@ -159,7 +159,7 @@ function Decisione({ decisione }) {
   return (
     <div>
       <Row>
-        <Col sm={4}>
+        <Col lg={4}>
           <Attributi
             attributi={internalAttributi}
             onAdd={handleCreaAttributo}
