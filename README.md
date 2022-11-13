@@ -8,7 +8,7 @@ La webapp serve per prendere decisioni in base agli attributi che setti te.
 Ogni attributo ha un peso da te definito ed ogni elemento ha tutti gli attributi definiti con un valore da te stabilito.
 In maniera runtime viene mostrato l'eleemnto migliore secondo i tuoi parametri !
 
-Vuoi vedere una [demo](https://be-prometeo.herokuapp.com/) ?
+Vuoi vedere una [demo](https://be-prometeo.vercel.app) ?
 Se desideri eseguire il codice localmente guarda la sezione sotto 🤯🥴, oppure lancia nel terminale
 ```cmd
 npm i
