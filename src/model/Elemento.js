@@ -74,7 +74,7 @@ export default class Elemento {
    * @param {AttributoValore} attributoValore attributo valore da aggiungere
    */
   addAttributoValore(attributoValore) {
-    if (!attributoValore instanceof AttributoValore)
+    if (!(attributoValore instanceof AttributoValore))
       throw new Error(
         "attributoValore deve essere un istanza di AttributoValore"
       );
@@ -88,7 +88,7 @@ export default class Elemento {
    * @param {Attributo} attributo attributo da aggiugere
    */
   addAttributo(attributo) {
-    if (!attributo instanceof Attributo)
+    if (!(attributo instanceof Attributo))
       throw new Error("attributo deve essere un istanza di Attributo");
     // assegno il valore minimo possibile
     const attributoValore = AttributoValore.creaAttributoValore(attributo);
